@@ -17,7 +17,7 @@ Kurtosis <- function(x){
 #' @importFrom magrittr %>%
 #' @importFrom e1071 skewness
 #' @importFrom e1071 kurtosis
-#' @importFrom modelsummary datasummary
+#' @import modelsummary
 #' @importFrom kableExtra kable_classic
 #' @export
 #'

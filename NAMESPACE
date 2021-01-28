@@ -2,8 +2,8 @@
 
 export(otBasicStats)
 export(ot基本統計量)
+import(modelsummary)
 importFrom(e1071,kurtosis)
 importFrom(e1071,skewness)
 importFrom(kableExtra,kable_classic)
 importFrom(magrittr,"%>%")
-importFrom(modelsummary,datasummary)
