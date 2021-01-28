@@ -4,9 +4,8 @@ Title: R packages for Otemon Gakuin University
 Version: 0.0.1
 Author: Akira Harada
 Maintainer: The package maintainer <momoldo@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: GPL (>= 3)
+Description: R functions are used for R classroom.
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
