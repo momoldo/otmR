@@ -3,7 +3,6 @@
 export(otBasicStats)
 export(otCorrelation)
 export(otPrint)
-export(ot基本統計量)
 importFrom(e1071,kurtosis)
 importFrom(e1071,skewness)
 importFrom(kableExtra,cell_spec)
