@@ -1,4 +1,4 @@
-# Print out function "otBasicStatis"
+#' Print out function "otBasicStatis"
 #'
 #' @importFrom kableExtra kbl kable_classic
 #' @param otm_obj any otmR object
@@ -11,7 +11,7 @@ ot_print_basic_stats <- function(otm_obj, ...){
   kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>% kable_classic(full_width=FALSE)
 }
 
-# Print out function for "otCorrelation"
+#' Print out function for "otCorrelation"
 #'
 #' @importFrom kableExtra kbl kable_classic cell_spec
 #' @param otm_obj any otmR object computed by "otCorrelation"
