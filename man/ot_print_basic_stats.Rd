@@ -13,4 +13,6 @@ ot_print_basic_stats(otm_obj, ...)
 }
 \description{
 Print out function "otBasicStatis"
+
+Print out function "otBasicStatis"
 }
