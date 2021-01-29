@@ -1,4 +1,4 @@
-# Print out function "otBasicStatis"
+#' Print out function "otBasicStatis"
 #'
 #' @importFrom kableExtra kbl kable_classic
 #' @param otm_obj any otmR object
