@@ -49,7 +49,8 @@ otPrint <- function(otm_obj, ...){
     func_name <- attr(otm_obj, "otmR_func")
     if (!is.null(func_name)){
       switch (func_name,
-              "BasicStats" = ot_print_basic_stats(otm_obj, ...),
+              "BasicStats"  = ot_print_basic_stats(otm_obj, ...),
+              "Correlation" = ot_print_colleration(otm_obj, ...),
               print(otm_obj)
       )
     }
