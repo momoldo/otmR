@@ -1,13 +1,46 @@
-# Calculate skewness for SPSS type
+#' Calculate skewness for SPSS type
+#'
+#' @param x a variable to summarise
 #' @importFrom e1071 skewness
-Skewness <- function(x){
+SKEWNESS <- function(x){
   e1071::skewness(x, na.rm = TRUE, type = 2)
 }
 
-# Calculate kurtosis for SPSS type
+#' Calculate kurtosis for SPSS type
+#'
+#' @param x a variable to summarise
 #' @importFrom e1071 kurtosis
-Kurtosis <- function(x){
+KURTOSIS <- function(x){
   e1071::kurtosis(x, na.rm = TRUE, type = 2)
+}
+
+#' Calculate sample size without missing values
+#'
+#' @param x a variable to summarise
+#'
+Nrow <- function(x){length(x[complete.cases(x)])}
+
+#' Calculate missing values
+#'
+#' @param x a variable to summarise
+#'
+MISSING <- function(x){length(x)-length(x[complete.cases(x)])}
+
+#' Calculate statistics
+#'
+#' @param x a variable to summarise
+#'
+ot_basic_stats_vec <- function(x){
+  if (!is.null(x)){
+    return(data.frame(
+      Size = Nrow(x),
+      Mean = mean(x, na.rm = TRUE),
+      Median = median(x, na.rm = TRUE),
+      SD = sd(x, na.rm = TRUE),
+      Skewness = SKEWNESS(x),
+      Kurtosis = KURTOSIS(x)
+    ))
+  }
 }
 
 #' Calculating Basic Statistics for ratio scale variables
@@ -15,14 +48,11 @@ Kurtosis <- function(x){
 #' @param data target data.frame
 #'
 #' @importFrom magrittr %>%
-#' @importFrom e1071 skewness
-#' @importFrom e1071 kurtosis
-#' @import modelsummary
-#' @importFrom kableExtra kable_classic
+#' @importFrom purrr map_dfr
 #' @export
 #'
 otBasicStats <- function(data){
-  data %>% datasummary(All(.)~N+Min+Max+Mean+Median+SD+Skewness+Kurtosis+Histogram, data = .,
-                       output = "kableExtra", title = "Basic Statistics") %>%
-    kable_classic(full_width = FALSE)
+  res <- data %>% map_dfr(ot_basic_stats_vec)
+  attr(res, "otmR_func") <- "BasicStats"
+  return(res)
 }
