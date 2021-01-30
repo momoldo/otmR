@@ -24,6 +24,7 @@ ot_pairwise_n <- function(data){
 #'   to be computed.  One of "pearson", "kendall", or "spearman" can be abbreviated.
 #' @importFrom magrittr %>%
 #' @importFrom stats cor pt
+#' @examples otCorrelation(timevalue[,c(2:11)]) %>% otPrint(digits=3) # show correlation matrix
 #' @export
 #'
 otCorrelation <- function(data, use = "pairwise.complete.obs",

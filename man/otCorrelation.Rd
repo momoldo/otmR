@@ -23,3 +23,6 @@ to be computed.  One of "pearson", "kendall", or "spearman" can be abbreviated.}
 \description{
 Computing correlation matrix from data.frame
 }
+\examples{
+otCorrelation(timevalue[,c(2:11)]) \%>\% otPrint(digits=3) # show correlation matrix
+}
