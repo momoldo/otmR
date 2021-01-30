@@ -10,7 +10,7 @@ ID, questionaire items, some scores and demographic items.
 \format{
   A data frame with 106 observations on the following 26 variables.
   \describe{
-    \item{\code{id}}{a numeric vector}
+    \item{\code{id}}{a numeric vector: observation's id}
     \item{\code{Item01}-\code{Item18}}{a numeric vector}
     \item{\code{Scale01}}{a numeric vector}
     \item{\code{Scale02}}{a numeric vector}
