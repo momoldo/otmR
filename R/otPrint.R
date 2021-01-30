@@ -1,7 +1,7 @@
-#' Print out function "otBasicStatis"
+#' Print "otBasicStats" results
 #'
 #' @importFrom kableExtra kbl kable_classic
-#' @param otm_obj any otmR object
+#' @param otm_obj an object computed by "otBasicStats"
 #'
 ot_print_basic_stats <- function(otm_obj, ...){
   dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
@@ -11,10 +11,10 @@ ot_print_basic_stats <- function(otm_obj, ...){
   kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>% kable_classic(full_width=FALSE)
 }
 
-#' Print out function for "otCorrelation"
+#' Print "otCorrelation" results
 #'
 #' @importFrom kableExtra kbl kable_classic cell_spec
-#' @param otm_obj any otmR object computed by "otCorrelation"
+#' @param otm_obj an object computed by "otCorrelation"
 #'
 ot_print_colleration <- function(otm_obj, ...){
   dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
@@ -39,9 +39,22 @@ ot_print_colleration <- function(otm_obj, ...){
   }
 }
 
+#' Print "otGlm" results
+#'
+#' @importFrom kableExtra kbl kable_classic cell_spec
+#' @param otm_obj an object computed by "otGlm"
+#'
+ot_print_glm <- function(otm_obj, ...){
+  dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
+               as.integer(list(...)[["digits"]]))
+  tab_caption <- ifelse(is.null(list(...)[["caption"]]),"Correlation Matrix",
+                        list(...)[["caption"]])
+  kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>% kable_classic(full_width=FALSE)
+}
+
 #' Print out function for otmR
 #'
-#' @param otm_obj An object made by ot_functions
+#' @param otm_obj an object made by ot_functions
 #' @export
 #'
 otPrint <- function(otm_obj, ...){
@@ -51,6 +64,7 @@ otPrint <- function(otm_obj, ...){
       switch (func_name,
               "BasicStats"  = ot_print_basic_stats(otm_obj, ...),
               "Correlation" = ot_print_colleration(otm_obj, ...),
+              "Glm"         = ot_print_glm(otm_obj, ...),
               print(otm_obj)
       )
     }
