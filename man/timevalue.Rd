@@ -6,7 +6,7 @@
 This data.frame shows a sample of a dataset to be often analised:
 ID, questionaire items, some scores and demographic items.
 }
-\usage{data("timevalue")}
+\usage{timevalue}
 \format{
   A data frame with 106 observations on the following 26 variables.
   \describe{

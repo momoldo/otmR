@@ -7,7 +7,7 @@
 This data.frame shows a sample of a dataset including missing values
 to be often analised: ID, questionaire items, some scores and demographic items.
 }
-\usage{data("timevalue_missing")}
+\usage{timevalue_missing}
 \format{
   A data frame with 106 observations on the following 26 variables.
   \describe{
