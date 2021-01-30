@@ -7,6 +7,7 @@
 #'   variables.
 #' @param model an object of class "formula": a symbolic description
 #'   of the model to be fitted.
+#' @export
 #'
 otGlm <- function(data, model=NULL, is.residual=FALSE){
   if (!is.null(model)){
