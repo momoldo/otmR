@@ -2,7 +2,7 @@
 % Please edit documentation in R/otBasicStats.R
 \name{Nrow}
 \alias{Nrow}
-\title{Calculate sample size without missing values}
+\title{Computing sample size without missing values}
 \usage{
 Nrow(x)
 }
@@ -10,5 +10,5 @@ Nrow(x)
 \item{x}{a variable to summarise}
 }
 \description{
-Calculate sample size without missing values
+Computing sample size without missing values
 }

@@ -8,6 +8,8 @@ ot_print_glm(otm_obj, ...)
 }
 \arguments{
 \item{otm_obj}{an object computed by "otGlm"}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
 Print "otGlm" results

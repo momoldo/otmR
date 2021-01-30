@@ -2,7 +2,7 @@
 % Please edit documentation in R/otBasicStats.R
 \name{MISSING}
 \alias{MISSING}
-\title{Calculate missing values}
+\title{Computing number of missing values}
 \usage{
 MISSING(x)
 }
@@ -10,5 +10,5 @@ MISSING(x)
 \item{x}{a variable to summarise}
 }
 \description{
-Calculate missing values
+Computing number of missing values
 }

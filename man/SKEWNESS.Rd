@@ -2,7 +2,7 @@
 % Please edit documentation in R/otBasicStats.R
 \name{SKEWNESS}
 \alias{SKEWNESS}
-\title{Calculate skewness for SPSS type}
+\title{Computing skewness for SPSS type}
 \usage{
 SKEWNESS(x)
 }
@@ -10,5 +10,5 @@ SKEWNESS(x)
 \item{x}{a variable to summarise}
 }
 \description{
-Calculate skewness for SPSS type
+Computing skewness for SPSS type
 }

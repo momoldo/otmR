@@ -2,7 +2,7 @@
 % Please edit documentation in R/otBasicStats.R
 \name{ot_basic_stats_vec}
 \alias{ot_basic_stats_vec}
-\title{Calculate statistics}
+\title{Computing various statistics}
 \usage{
 ot_basic_stats_vec(x)
 }
@@ -10,5 +10,5 @@ ot_basic_stats_vec(x)
 \item{x}{a variable to summarise}
 }
 \description{
-Calculate statistics
+Computing various statistics
 }

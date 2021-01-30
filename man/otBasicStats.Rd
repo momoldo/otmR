@@ -2,7 +2,7 @@
 % Please edit documentation in R/otBasicStats.R
 \name{otBasicStats}
 \alias{otBasicStats}
-\title{Calculating Basic Statistics for ratio scale variables}
+\title{Computing Basic Statistics for ratio scale variables}
 \usage{
 otBasicStats(data)
 }
@@ -10,5 +10,5 @@ otBasicStats(data)
 \item{data}{target data.frame}
 }
 \description{
-Calculating Basic Statistics for ratio scale variables
+Computing Basic Statistics for ratio scale variables
 }

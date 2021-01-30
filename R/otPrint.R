@@ -2,6 +2,7 @@
 #'
 #' @importFrom kableExtra kbl kable_classic
 #' @param otm_obj an object computed by "otBasicStats"
+#' @param ... further arguments passed to or from other methods.
 #'
 ot_print_basic_stats <- function(otm_obj, ...){
   dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
@@ -15,6 +16,7 @@ ot_print_basic_stats <- function(otm_obj, ...){
 #'
 #' @importFrom kableExtra kbl kable_classic cell_spec
 #' @param otm_obj an object computed by "otCorrelation"
+#' @param ... further arguments passed to or from other methods.
 #'
 ot_print_colleration <- function(otm_obj, ...){
   dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
@@ -43,6 +45,7 @@ ot_print_colleration <- function(otm_obj, ...){
 #'
 #' @importFrom kableExtra kbl kable_classic cell_spec
 #' @param otm_obj an object computed by "otGlm"
+#' @param ... further arguments passed to or from other methods.
 #'
 ot_print_glm <- function(otm_obj, ...){
   dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
@@ -54,7 +57,8 @@ ot_print_glm <- function(otm_obj, ...){
 
 #' Print out function for otmR
 #'
-#' @param otm_obj an object made by ot_functions
+#' @param otm_obj an object made by ot_functions.
+#' @param ... further arguments passed to or from other methods.
 #' @export
 #'
 otPrint <- function(otm_obj, ...){

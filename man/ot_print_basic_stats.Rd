@@ -8,6 +8,8 @@ ot_print_basic_stats(otm_obj, ...)
 }
 \arguments{
 \item{otm_obj}{an object computed by "otBasicStats"}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
 Print "otBasicStats" results

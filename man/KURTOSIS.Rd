@@ -2,7 +2,7 @@
 % Please edit documentation in R/otBasicStats.R
 \name{KURTOSIS}
 \alias{KURTOSIS}
-\title{Calculate kurtosis for SPSS type}
+\title{Computing kurtosis for SPSS type}
 \usage{
 KURTOSIS(x)
 }
@@ -10,5 +10,5 @@ KURTOSIS(x)
 \item{x}{a variable to summarise}
 }
 \description{
-Calculate kurtosis for SPSS type
+Computing kurtosis for SPSS type
 }

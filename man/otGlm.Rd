@@ -12,6 +12,9 @@ variables.}
 
 \item{model}{an object of class "formula": a symbolic description
 of the model to be fitted.}
+
+\item{is.residual}{a logical value indicating whether return object
+have residual information or not.}
 }
 \description{
 otGlm is used to fit generalized linear models.  otGlm returns

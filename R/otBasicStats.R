@@ -1,4 +1,4 @@
-#' Calculate skewness for SPSS type
+#' Computing skewness for SPSS type
 #'
 #' @param x a variable to summarise
 #' @importFrom e1071 skewness
@@ -6,7 +6,7 @@ SKEWNESS <- function(x){
   e1071::skewness(x, na.rm = TRUE, type = 2)
 }
 
-#' Calculate kurtosis for SPSS type
+#' Computing kurtosis for SPSS type
 #'
 #' @param x a variable to summarise
 #' @importFrom e1071 kurtosis
@@ -14,20 +14,23 @@ KURTOSIS <- function(x){
   e1071::kurtosis(x, na.rm = TRUE, type = 2)
 }
 
-#' Calculate sample size without missing values
+#' Computing sample size without missing values
 #'
 #' @param x a variable to summarise
+#' @importFrom stats complete.cases
 #'
 Nrow <- function(x){length(x[complete.cases(x)])}
 
-#' Calculate missing values
+#' Computing number of missing values
 #'
+#' @importFrom stats complete.cases
 #' @param x a variable to summarise
 #'
 MISSING <- function(x){length(x)-length(x[complete.cases(x)])}
 
-#' Calculate statistics
+#' Computing various statistics
 #'
+#' @importFrom stats median sd
 #' @param x a variable to summarise
 #'
 ot_basic_stats_vec <- function(x){
@@ -43,7 +46,7 @@ ot_basic_stats_vec <- function(x){
   }
 }
 
-#' Calculating Basic Statistics for ratio scale variables
+#' Computing Basic Statistics for ratio scale variables
 #'
 #' @param data target data.frame
 #'

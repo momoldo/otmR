@@ -1,4 +1,8 @@
-# Function to compute pairwise N
+#' Computing pairwise N
+#'
+#' @importFrom stats complete.cases
+#' @param data a data.frame
+#'
 ot_pairwise_n <- function(data){
   n_variables <- ncol(data)
   s_pair <- matrix(0, nrow = n_variables, ncol = n_variables)
@@ -10,7 +14,7 @@ ot_pairwise_n <- function(data){
   return(s_pair)
 }
 
-#' Function to calculate correlation matrix from data.frame
+#' Computing correlation matrix from data.frame
 #'
 #' @param data a data.frame that contains numeric variables only
 #' @param use an optional character string which is one of the strings
@@ -19,6 +23,7 @@ ot_pairwise_n <- function(data){
 #' @param method a character string indicating which correlation coefficient is
 #'   to be computed.  One of "pearson", "kendall", or "spearman" can be abbreviated.
 #' @importFrom magrittr %>%
+#' @importFrom stats cor pt
 #' @export
 #'
 otCorrelation <- function(data, use = "pairwise.complete.obs",

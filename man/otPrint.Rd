@@ -7,7 +7,9 @@
 otPrint(otm_obj, ...)
 }
 \arguments{
-\item{otm_obj}{an object made by ot_functions}
+\item{otm_obj}{an object made by ot_functions.}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
 Print out function for otmR

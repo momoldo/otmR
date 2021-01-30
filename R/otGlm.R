@@ -4,6 +4,7 @@
 #' a data.frame including simple results of stats::glm().
 #'
 #' @importFrom purrr modify
+#' @importFrom stats model.frame glm gaussian summary.lm pf
 #' @param data a data.frame object including both a dependent variables and independent
 #'   variables.
 #' @param model an object of class "formula": a symbolic description

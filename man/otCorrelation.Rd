@@ -2,7 +2,7 @@
 % Please edit documentation in R/otCorrelation.R
 \name{otCorrelation}
 \alias{otCorrelation}
-\title{Function to calculate correlation matrix from data.frame}
+\title{Computing correlation matrix from data.frame}
 \usage{
 otCorrelation(
   data,
@@ -21,5 +21,5 @@ otCorrelation(
 to be computed.  One of "pearson", "kendall", or "spearman" can be abbreviated.}
 }
 \description{
-Function to calculate correlation matrix from data.frame
+Computing correlation matrix from data.frame
 }

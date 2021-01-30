@@ -8,6 +8,8 @@ ot_print_colleration(otm_obj, ...)
 }
 \arguments{
 \item{otm_obj}{an object computed by "otCorrelation"}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
 Print "otCorrelation" results
