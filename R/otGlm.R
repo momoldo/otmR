@@ -3,6 +3,7 @@
 #' otGlm is used to fit generalized linear models.  otGlm returns
 #' a data.frame including simple results of stats::glm().
 #'
+#' @importFrom purrr modify
 #' @param data a data.frame object including both a dependent variables and independent
 #'   variables.
 #' @param model an object of class "formula": a symbolic description
@@ -11,14 +12,16 @@
 #'
 otGlm <- function(data, model=NULL, is.residual=FALSE){
   if (!is.null(model)){
-    d <- model.frame(model, data = data)
+    d <- data.frame(model.frame(model, data = data))
     res.fit <- glm(model, data = d, family = gaussian)
-    res.fit.std <- glm(model, data = scale(d), family = gaussian)
+    d <- d %>% purrr::modify(scale)
+    res.fit.std <- glm(model, data = d, family = gaussian)
     res.summary <- summary(res.fit)
     res <- data.frame(non.std.b = res.fit$coefficients,
                       std.b     = res.fit.std$coefficients,
                       std.err   = res.summary$coefficients[,2],
                       t.value   = res.summary$coefficients[,3],
+                      d.f       = res.summary$df.residual,
                       p.value   = res.summary$coefficients[,4])
     attr(res, "otmR_func") <- "Glm"
 
