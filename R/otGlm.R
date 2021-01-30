@@ -24,7 +24,7 @@ otGlm <- function(data, model=NULL, is.residual=FALSE){
                       std.b     = res.fit.std$coefficients,
                       std.err   = res.summary$coefficients[,2],
                       t.value   = res.summary$coefficients[,3],
-                      d.f       = res.summary$df.residual,
+                      df        = res.summary$df.residual,
                       p.value   = res.summary$coefficients[,4])
     attr(res, "otmR_func") <- "Glm"
 
