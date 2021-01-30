@@ -8,6 +8,8 @@
 #'   variables.
 #' @param model an object of class "formula": a symbolic description
 #'   of the model to be fitted.
+#' @param is.residual a logical value indicating whether return object
+#'   have residual information or not.
 #' @export
 #'
 otGlm <- function(data, model=NULL, is.residual=FALSE){
