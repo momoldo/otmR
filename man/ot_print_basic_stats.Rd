@@ -2,13 +2,13 @@
 % Please edit documentation in R/otPrint.R
 \name{ot_print_basic_stats}
 \alias{ot_print_basic_stats}
-\title{Print out function "otBasicStatis"}
+\title{Print "otBasicStats" results}
 \usage{
 ot_print_basic_stats(otm_obj, ...)
 }
 \arguments{
-\item{otm_obj}{any otmR object}
+\item{otm_obj}{an object computed by "otBasicStats"}
 }
 \description{
-Print out function "otBasicStatis"
+Print "otBasicStats" results
 }

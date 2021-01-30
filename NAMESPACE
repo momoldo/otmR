@@ -2,6 +2,7 @@
 
 export(otBasicStats)
 export(otCorrelation)
+export(otGlm)
 export(otPrint)
 importFrom(e1071,kurtosis)
 importFrom(e1071,skewness)

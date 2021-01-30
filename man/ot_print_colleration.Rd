@@ -2,13 +2,13 @@
 % Please edit documentation in R/otPrint.R
 \name{ot_print_colleration}
 \alias{ot_print_colleration}
-\title{Print out function for "otCorrelation"}
+\title{Print "otCorrelation" results}
 \usage{
 ot_print_colleration(otm_obj, ...)
 }
 \arguments{
-\item{otm_obj}{any otmR object computed by "otCorrelation"}
+\item{otm_obj}{an object computed by "otCorrelation"}
 }
 \description{
-Print out function for "otCorrelation"
+Print "otCorrelation" results
 }
