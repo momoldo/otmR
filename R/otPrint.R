@@ -93,6 +93,7 @@ ot_print_logistic_regression <- function(otm_obj, ...){
 #'
 otPrint <- function(otm_obj, ...){
   if (!is.null(otm_obj)){
+    options(knitr.kable.NA = '')
     func_name <- attr(otm_obj, "otmR_func")
     if (!is.null(func_name)){
       switch (func_name,
