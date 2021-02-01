@@ -3,11 +3,11 @@
 \docType{data}
 \title{
 %%   ~~ data name/kind ... ~~
-Timeview Enquete Data
+Timeview Enquete Data without missing values
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of the dataset. ~~
-Timecview is a sample of an enquete data.
+Timecview is a sample of an enquete data without missing values.
 }
 \usage{timevalue}
 \format{
