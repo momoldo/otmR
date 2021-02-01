@@ -22,7 +22,7 @@ ot_pairwise_n <- function(data){
 #'   "pairwise.complete.obs".  See the heflp "cor".
 #' @param method a character string indicating which correlation coefficient is
 #'   to be computed.  One of "pearson", "kendall", or "spearman" can be abbreviated.
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
 #' @importFrom stats cor pt
 #' @examples otCorrelation(timevalue[,c(2:11)]) %>% otPrint(digits=3) # show correlation matrix
 #' @export

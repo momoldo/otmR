@@ -5,7 +5,7 @@
 #' 0-1 value.
 #'
 #' @importFrom purrr modify
-#' @importFrom stats model.frame glm binomial
+#' @importFrom stats model.frame glm binomial residuals
 #' @param data a data.frame object including both a dependent variables and independent
 #'   variables.
 #' @param model an object of class "formula": a symbolic description
@@ -26,7 +26,7 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
                       p.value = res.summary$coefficients[,4])
     attr(res, "otmR_func") <- "LogisticRegression"
 
-    attr(係数, "otmR_residual") <- data.frame(
+    attr(res, "otmR_residual") <- data.frame(
       Y = res.fit$y, Y.HAT = res.fit$fitted.values,
       devience = residuals(res.fit), row.names = NULL)
 

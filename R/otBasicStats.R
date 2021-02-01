@@ -50,7 +50,7 @@ ot_basic_stats_vec <- function(x){
 #'
 #' @param data target data.frame
 #'
-#' @importFrom magrittr %>%
+#' @importFrom dplyr %>%
 #' @importFrom purrr map_dfr
 #' @export
 #'
