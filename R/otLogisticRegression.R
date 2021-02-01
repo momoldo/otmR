@@ -20,10 +20,16 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
     res.fit <- glm(model, data = d, family = binomial(link = "logit"))
     res.summary <- summary(res.fit)
     res <- data.frame(beta = res.fit$coefficients,
-                      odds = exp(c(NA, res.fit$coefficients[2:length(model.glm$coefficients)])),
+                      odds = exp(c(NA, res.fit$coefficients[2:length(res.fit$coefficients)])),
                       std.err = res.summary$coefficients[,2],
                       z.score = res.summary$coefficients[,3],
                       p.value = res.summary$coefficients[,4])
     attr(res, "otmR_func") <- "LogisticRegression"
+
+    attr(係数, "otmR_residual") <- data.frame(
+      Y = res.fit$y, Y.HAT = res.fit$fitted.values,
+      devience = residuals(res.fit), row.names = NULL)
+
+    return(res)
   }
 }
