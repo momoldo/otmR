@@ -15,10 +15,13 @@
 #'
 otGlm <- function(data, model=NULL, is.residual=FALSE){
   if (!is.null(model)){
-    d <- data.frame(model.frame(model, data = data))
-    res.fit <- glm(model, data = d, family = gaussian)
-    d <- d %>% purrr::modify(scale)
-    res.fit.std <- glm(model, data = d, family = gaussian)
+    d <- model.frame(model, data = data)
+    res.fit <- glm(model, data = data.frame(d), family = gaussian)
+    v.dep <- model.matrix.lm(d) %>% data.frame() %>%
+      select(-1) %>% # remove intercept
+      purrr::modify(scale) %>% # standardize
+      tibble::add_column(Intercept=1, .before = 1) # append intercept
+    res.fit.std <- glm.fit(x = v.dep, y = scale(model.response(d)), family = gaussian())
     res.summary <- summary(res.fit)
     res <- data.frame(non.std.b = res.fit$coefficients,
                       std.b     = res.fit.std$coefficients,
@@ -29,6 +32,8 @@ otGlm <- function(data, model=NULL, is.residual=FALSE){
     attr(res, "otmR_func") <- "Glm"
 
     res.summary.lm <- summary.lm(res.fit)
+
+    attr(res, "otmR_model") <- model
     attr(res, "otmR_fit") <- data.frame(
     N = length(res.fit$y),            # sample size
     P = length(res.fit$coefficients), # number of independent variables
