@@ -50,7 +50,9 @@ ot_print_colleration <- function(otm_obj, ...){
 ot_print_glm <- function(otm_obj, ...){
   dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
                as.integer(list(...)[["digits"]]))
-  tab_caption <- ifelse(is.null(list(...)[["caption"]]),"Glm Result",
+  c.model <- as.character(attr(otm_obj, "otmR_model"))
+  tab_caption <- ifelse(is.null(list(...)[["caption"]]),
+                        paste0("Glm Result(",c.model[2],"~",c.model[3],")"),
                         list(...)[["caption"]])
   fit <- attr(otm_obj, "otmR_fit")
 
