@@ -72,7 +72,14 @@ ot_print_glm <- function(otm_obj, ...){
                               fit$df_1,",",fit$df_2,")=",
                               format(round(fit$F.value,3), nsmall = 3),
                               ", p=",format(round(pf(fit$F.value,fit$df_1,fit$df_2, lower.tail = FALSE),3), nsmall = 3)),
-             general_title = "Note:")
+             general_title = "Note:") %>% print()
+
+  df.res <- attr(otm_obj, "otmR_residual")
+  if (!is.null(df.res)){
+    df.res %>% arrange(desc(abs(Std_Residual))) %>% head() %>%
+      kbl(digits = dg, caption = "Rank of Residuals", align = "r") %>%
+      kable_classic(full_width=FALSE)
+  }
 }
 
 #' Print "otLogisticRegression" results

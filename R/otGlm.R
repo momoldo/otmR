@@ -52,6 +52,7 @@ otGlm <- function(data, model=NULL, is.residual=FALSE){
 
     if (is.residual){
       attr(res, "otmR_residual") <- data.frame(
+        ID = c(1:length(res.fit$y)),
         Y = res.fit$y, Y_Hat = res.fit$fitted.values,
         Residual     = res.fit$residuals,
         Std_Residual = res.fit.std$residuals, row.names = NULL)
