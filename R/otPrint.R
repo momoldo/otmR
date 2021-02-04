@@ -44,6 +44,8 @@ ot_print_colleration <- function(otm_obj, ...){
 #' Print "otGlm" results
 #'
 #' @importFrom kableExtra kbl kable_classic footnote
+#' @importFrom dplyr arrange desc
+#' @importFrom utils head
 #' @param otm_obj an object computed by "otGlm"
 #' @param ... further arguments passed to or from other methods.
 #'
