@@ -26,6 +26,7 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
                       p.value    = res.summary$coefficients[,4])
     attr(res, "otmR_func") <- "LogisticRegression"
 
+    attr(res, "otmR_model") <- model
     attr(res, "otmR_residual") <- data.frame(
       Y = res.fit$y, Y.HAT = res.fit$fitted.values,
       devience = residuals(res.fit), row.names = NULL)
