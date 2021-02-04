@@ -4,7 +4,10 @@
 #' a data.frame including simple results of stats::glm().
 #'
 #' @importFrom purrr modify
-#' @importFrom stats model.frame glm gaussian summary.lm pf
+#' @importFrom dplyr select
+#' @importFrom tibble add_column
+#' @importFrom stats model.frame model.matrix.lm model.response
+#'     glm glm.fit gaussian summary.lm pf
 #' @param data a data.frame object including both a dependent variables and independent
 #'   variables.
 #' @param model an object of class "formula": a symbolic description
@@ -19,8 +22,8 @@ otGlm <- function(data, model=NULL, is.residual=FALSE){
     res.fit <- glm(model, data = data.frame(d), family = gaussian)
     v.dep <- model.matrix.lm(d) %>% data.frame() %>%
       select(-1) %>% # remove intercept
-      purrr::modify(scale) %>% # standardize
-      tibble::add_column(Intercept=1, .before = 1) # append intercept
+      modify(scale) %>% # standardize
+      add_column(Intercept=1, .before = 1) # append intercept
     res.fit.std <- glm.fit(x = v.dep, y = scale(model.response(d)), family = gaussian())
     res.summary <- summary(res.fit)
     res <- data.frame(non.std.b = res.fit$coefficients,

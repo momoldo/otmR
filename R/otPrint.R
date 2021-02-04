@@ -14,7 +14,7 @@ ot_print_basic_stats <- function(otm_obj, ...){
 
 #' Print "otCorrelation" results
 #'
-#' @importFrom kableExtra kbl kable_classic cell_spec
+#' @importFrom kableExtra kbl kable_classic cell_spec row_spec
 #' @param otm_obj an object computed by "otCorrelation"
 #' @param ... further arguments passed to or from other methods.
 #'
