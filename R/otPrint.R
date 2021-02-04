@@ -55,8 +55,18 @@ ot_print_glm <- function(otm_obj, ...){
                         paste0("Glm Result(",c.model[2],"~",c.model[3],")"),
                         list(...)[["caption"]])
   fit <- attr(otm_obj, "otmR_fit")
+  is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
+                       as.logical(list(...)[["is.colored"]]))
 
-  kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>%
+  if (is.colored){
+    color_row <- which(otm_obj$p.value < 0.05)
+    tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>%
+      row_spec(color_row, background = "lightgreen")
+
+  } else {
+    tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r")
+  }
+  tab %>%
     kable_classic(full_width=FALSE) %>%
     footnote(general = paste0("R2=",format(round(fit$r.square,3), nsmall = 3),", F(",
                               fit$df_1,",",fit$df_2,")=",
