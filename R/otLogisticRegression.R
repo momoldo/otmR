@@ -6,6 +6,7 @@
 #'
 #' @importFrom purrr modify
 #' @importFrom stats model.frame glm binomial residuals
+#' @importFrom dplyr filter count
 #' @param data a data.frame object including both a dependent variables and independent
 #'   variables.
 #' @param model an object of class "formula": a symbolic description
@@ -27,9 +28,31 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
     attr(res, "otmR_func") <- "LogisticRegression"
 
     attr(res, "otmR_model") <- model
-    attr(res, "otmR_residual") <- data.frame(
-      Y = res.fit$y, Y.HAT = res.fit$fitted.values,
+
+    pred <- data.frame(
+      Y = res.fit$y,
+      Y.HAT = round(res.fit$fitted.values,0),
+      Y.pred = res.fit$fitted.values,
       devience = residuals(res.fit), row.names = NULL)
+
+    confusion_matrix <- count(pred, Y, Y.HAT)
+    fit <- data.frame(
+      r.accuracy  =
+        sum(filter(confusion_matrix,Y==Y.HAT)$n)/ # (True_Positive + True_Negative)
+        sum(confusion_matrix$n),                  # Total
+      r.precision =
+        sum(filter(confusion_matrix, Y==1, Y.HAT==1)$n)/ # True_Positive
+        sum(filter(confusion_matrix, Y.HAT==1)$n),       # True_Positive + False_Positive
+      r.recall =
+        sum(filter(confusion_matrix, Y==1, Y.HAT==1)$n)/ # True_Positive
+        sum(filter(confusion_matrix, Y==1)$n),           # True_Positive + False_Nagative
+      r.specificity =
+        sum(filter(confusion_matrix, Y==0, Y.HAT==0)$n)/ # True_Negative
+        sum(filter(confusion_matrix, Y==0)$n)            # False_Positive + True_Negative
+    )
+
+    attr(res, "otmR_fit") <- fit
+    attr(res, "otmR_residual") <- pred[order(abs(pred$devience),decreasing = TRUE),]
 
     return(res)
   }
