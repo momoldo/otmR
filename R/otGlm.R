@@ -51,11 +51,14 @@ otGlm <- function(data, model=NULL, is.residual=FALSE){
                  res.summary.lm$fstatistic[["dendf"]], lower.tail = FALSE))
 
     if (is.residual){
-      attr(res, "otmR_residual") <- data.frame(
+      rsd <- data.frame(
         ID = c(1:length(res.fit$y)),
         Y = res.fit$y, Y_Hat = res.fit$fitted.values,
         Residual     = res.fit$residuals,
-        Std_Residual = res.fit.std$residuals, row.names = NULL)
+        Std.residual = res.fit.std$residuals, row.names = NULL)
+      rsd <- rsd[order(rsd$Std.residual, decreasing = TRUE),]
+
+      attr(res, "otmR_residual") <- rsd
     }
     return(res)
   }
