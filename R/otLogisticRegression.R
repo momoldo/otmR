@@ -38,7 +38,7 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
     confusion_matrix <- count(pred, Y, Y.HAT)
     fit <- data.frame(
       r.accuracy  =
-        sum(filter(confusion_matrix,Y==Y.HAT)$n)/ # (True_Positive + True_Negative)
+        sum(filter(confusion_matrix, Y==Y.HAT)$n)/ # (True_Positive + True_Negative)
         sum(confusion_matrix$n),                  # Total
       r.precision =
         sum(filter(confusion_matrix, Y==1, Y.HAT==1)$n)/ # True_Positive
