@@ -4,13 +4,15 @@
 \alias{otReadData}
 \title{otReadData}
 \usage{
-otReadData(path, sheet = NULL, ...)
+otReadData(path, sheet = NULL, label_sheet = "Label", ...)
 }
 \arguments{
 \item{path}{path to the xls/xlsx file.}
 
-\item{sheet}{sheet to read.  Ether a string (the name of sheet),
+\item{sheet}{sheet to read data.  Ether a string (the name of sheet),
 or an integer (the position of the sheet).}
+
+\item{label_sheet}{sheet to read value label. Ether a string or an integer.}
 
 \item{...}{further arguments passed to or from other methods.}
 }
