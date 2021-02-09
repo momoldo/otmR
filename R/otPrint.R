@@ -125,6 +125,35 @@ ot_print_logistic_regression <- function(otm_obj, ...){
   }
 }
 
+#' Print "otANOVA" resutls
+#'
+#' otANOVA is a function to print out "otANOVA" results.
+#'
+#' @importFrom kableExtra kbl kable_classic row_spec
+#' @param otm_obj an object make by ot_functions.
+#' @param ... further arguments passed to or from other methods.
+#'
+ot_print_anova <- function(otm_obj, ...){
+  dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
+               as.integer(list(...)[["digits"]]))
+  c.model <- as.character(attr(otm_obj, "otmR_model"))
+  tab_caption <- ifelse(is.null(list(...)[["caption"]]),
+                        paste0("ANOVA Tables(",c.model[2],"~",c.model[3],")"),
+                        list(...)[["caption"]])
+  is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
+                       as.logical(list(...)[["is.colored"]]))
+
+  if (is.colored){
+    color_row <- which(otm_obj[,5] < 0.05) # 0.05 is replaced by option in the future
+    tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>%
+      row_spec(color_row, background = "lightgreen")
+  } else {
+    tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r")
+  }
+  tab %>%
+    kable_classic(full_width=FALSE) %>% print()
+}
+
 #' Print out function for otmR
 #'
 #' @param otm_obj an object made by ot_functions.
@@ -141,6 +170,7 @@ otPrint <- function(otm_obj, ...){
               "Correlation" = ot_print_colleration(otm_obj, ...),
               "Glm"         = ot_print_glm(otm_obj, ...),
               "LogisticRegression" = ot_print_logistic_regression(otm_obj, ...),
+              "ANOVA"       = ot_print_anova(otm_obj, ...),
               print(otm_obj)
       )
     }
