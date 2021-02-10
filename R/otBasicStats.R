@@ -37,11 +37,11 @@ ot_basic_stats_vec <- function(x){
   if (!is.null(x)){
     return(data.frame(
       Size = Nrow(x),
-      Mean = mean(x, na.rm = TRUE),
-      Median = median(x, na.rm = TRUE),
-      SD = sd(x, na.rm = TRUE),
-      Skewness = SKEWNESS(x),
-      Kurtosis = KURTOSIS(x)
+      Mean = mean(as.numeric(x), na.rm = TRUE),
+      Median = median(as.numeric(x), na.rm = TRUE),
+      SD = sd(as.numeric(x), na.rm = TRUE),
+      Skewness = SKEWNESS(as.numeric(x)),
+      Kurtosis = KURTOSIS(as.numeric(x))
     ))
   }
 }
