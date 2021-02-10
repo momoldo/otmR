@@ -56,6 +56,7 @@ ot_basic_stats_vec <- function(x){
 #'
 otBasicStats <- function(data){
   res <- data %>% map_dfr(ot_basic_stats_vec)
+  rownames(res) <- names(data)
   attr(res, "otmR_func") <- "BasicStats"
   return(res)
 }
