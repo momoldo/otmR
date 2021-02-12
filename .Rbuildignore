@@ -6,3 +6,4 @@
 ^\.github$
 ^txt/*+$
 ^rikaido.xlsx$
+^codecov\.yml$
