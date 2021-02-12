@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/momoldo/otmR/workflows/R-CMD-check/badge.svg)](https://github.com/momoldo/otmR/actions)
+[![Codecov test coverage](https://codecov.io/gh/momoldo/otmR/branch/main/graph/badge.svg)](https://codecov.io/gh/momoldo/otmR?branch=main)
 <!-- badges: end -->
 
 The goal of otmR is to ...
