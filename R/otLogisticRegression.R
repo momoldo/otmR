@@ -52,8 +52,9 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
     )
 
     attr(res, "otmR_fit") <- fit
-    attr(res, "otmR_residual") <- pred[order(abs(pred$devience),decreasing = TRUE),]
-
+    if (is.residual){
+      attr(res, "otmR_residual") <- pred[order(abs(pred$devience),decreasing = TRUE),]
+    }
     return(res)
   }
 }
