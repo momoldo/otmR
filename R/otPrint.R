@@ -67,19 +67,26 @@ ot_print_glm <- function(otm_obj, ...){
   } else {
     tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r")
   }
-  tab %>%
-    kable_classic(full_width=FALSE) %>%
-    footnote(general = paste0("R2=",format(round(fit$r.square,3), nsmall = 3),", F(",
-                              fit$df_1,",",fit$df_2,")=",
-                              format(round(fit$F.value,3), nsmall = 3),
-                              ", p=",format(round(pf(fit$F.value,fit$df_1,fit$df_2, lower.tail = FALSE),3), nsmall = 3)),
-             general_title = "Note:") %>% print()
+
+  return.tab <-
+    tab %>%
+      kable_classic(full_width=FALSE) %>%
+      footnote(general = paste0("R2=",format(round(fit$r.square,3), nsmall = 3),", F(",
+                                fit$df_1,",",fit$df_2,")=",
+                                format(round(fit$F.value,3), nsmall = 3),
+                                ", p=",format(round(pf(fit$F.value,fit$df_1,fit$df_2, lower.tail = FALSE),3),
+                                              nsmall = 3)),
+               general_title = "Note:")
 
   df.res <- attr(otm_obj, "otmR_residual")
   if (!is.null(df.res)){
-    df.res %>% head() %>%
-      kbl(digits = dg, caption = "Rank of Residuals", align = "r") %>%
-      kable_classic(full_width=FALSE)
+    return.residual <-
+      df.res %>% head() %>%
+        kbl(digits = dg, caption = "Rank of Residuals", align = "r") %>%
+        kable_classic(full_width=FALSE)
+    return(list(return.tab,return.residual))
+  } else {
+    return(return.tab)
   }
 }
 
@@ -110,18 +117,24 @@ ot_print_logistic_regression <- function(otm_obj, ...){
   }
 
   fit <- attr(otm_obj, "otmR_fit")
-  tab %>% kable_classic(full_width=FALSE) %>%
-    footnote(general = paste0("Accuracy=",    format(round(fit$r.accuracy,3), nsmall = 3),
-                              ", Precision=", format(round(fit$r.precision,3), nsmall = 3),
-                              ", Recall=",    format(round(fit$r.recall,3), nsmall = 3),
-                              ", Specificity=", format(round(fit$r.specificity,3), nsmall = 3)),
-             general_title = "Note:") %>% print()
+
+  return.tab <-
+    tab %>% kable_classic(full_width=FALSE) %>%
+      footnote(general = paste0("Accuracy=",    format(round(fit$r.accuracy,3), nsmall = 3),
+                                ", Precision=", format(round(fit$r.precision,3), nsmall = 3),
+                                ", Recall=",    format(round(fit$r.recall,3), nsmall = 3),
+                                ", Specificity=", format(round(fit$r.specificity,3), nsmall = 3)),
+               general_title = "Note:")
 
   df.res <- attr(otm_obj, "otmR_residual")
   if (!is.null(df.res)){
-    df.res %>% head() %>%
-      kbl(digits = dg, caption = "Rank of Residuals", align = "r") %>%
-      kable_classic(full_width=FALSE)
+    return.residual <-
+      df.res %>% head() %>%
+        kbl(digits = dg, caption = "Rank of Residuals", align = "r") %>%
+        kable_classic(full_width=FALSE)
+    return(list(return.tab, return.residual))
+  } else {
+    return(list(return.tab))
   }
 }
 
@@ -151,7 +164,7 @@ ot_print_anova <- function(otm_obj, ...){
     tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r")
   }
   tab %>%
-    kable_classic(full_width=FALSE) %>% print()
+    kable_classic(full_width=FALSE)
 }
 
 #' Print out function for otmR
