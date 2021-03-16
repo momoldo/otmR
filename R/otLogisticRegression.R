@@ -27,7 +27,7 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
                       p.value    = res.summary$coefficients[,4])
     attr(res, "otmR_func") <- "LogisticRegression"
 
-    attr(res, "otmR_model") <- model
+    attr(res, "otmR_model") <- res.fit$formula
 
     pred <- data.frame(
       Y = res.fit$y,

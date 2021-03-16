@@ -36,7 +36,7 @@ otGlm <- function(data, model=NULL, is.residual=FALSE){
 
     res.summary.lm <- summary.lm(res.fit)
 
-    attr(res, "otmR_model") <- model
+    attr(res, "otmR_model") <- res.fit$formula
     attr(res, "otmR_fit") <- data.frame(
     N = length(res.fit$y),            # sample size
     P = length(res.fit$coefficients), # number of independent variables
