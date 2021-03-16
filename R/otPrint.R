@@ -84,7 +84,7 @@ ot_print_glm <- function(otm_obj, ...){
       df.res %>% head() %>%
         kbl(digits = dg, caption = "Rank of Residuals", align = "r") %>%
         kable_classic(full_width=FALSE)
-    return(list(return.tab,return.residual))
+    return(list(return.tab, return.residual))
   } else {
     return(return.tab)
   }
