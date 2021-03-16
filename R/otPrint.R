@@ -134,7 +134,7 @@ ot_print_logistic_regression <- function(otm_obj, ...){
         kable_classic(full_width=FALSE)
     return(list(return.tab, return.residual))
   } else {
-    return(list(return.tab))
+    return(return.tab)
   }
 }
 
