@@ -41,6 +41,44 @@ ot_print_colleration <- function(otm_obj, ...){
   }
 }
 
+#' Print "otTTest" results
+#'
+#' @importFrom kableExtra kbl kable_classic cell_spec footnote
+#' @param otm_obj an object computed by "otTTest"
+#' @param ... further arguments passed to or from other methods.
+#'
+ot_print_ttest <- function(otm_obj, ...){
+  dg    <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
+                  as.integer(list(...)[["digits"]]))
+  alpha <- ifelse(is.null(attr(otm_obj, "otmR_alpha")), 0.95,
+                  as.numeric(attr(otm_obj, "otmR_alpha")))
+  c.model <- as.character(attr(otm_obj, "otmR_model"))
+  tab_caption <- ifelse(is.null(list(...)[["caption"]]),
+                        paste0("Student's t-Test Result(",c.model[2],"~",c.model[3],")"),
+                        list(...)[["caption"]])
+  is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
+                       as.logical(list(...)[["is.colored"]]))
+
+  if (!is.null(otm_obj)){
+    tbl <- format(round(otm_obj, dg), nsmall = dg)
+    tbl[1,6] <- sub("\\.0*","", tbl[1,6]) # adopt integer type to var.equal's t.df
+    tbl[2,] <- sub("NA","", tbl[2,])      # delete character NA
+
+    if (is.colored){
+      for (i in 1:nrow(otm_obj)){
+        if (otm_obj[i,7]<alpha){
+          tbl[i,5:7] <- cell_spec(tbl[i,5:7], background = "lightgreen")
+        }
+      }
+    }
+    tbl <- kbl(tbl, escape = FALSE, caption = tab_caption, align = "r") %>%
+        kable_classic(full_width=FALSE) %>%
+        footnote(general = paste0("alpha is",alpha), general_title = "Note:")
+
+    return(tbl)
+  }
+}
+
 #' Print "otGlm" results
 #'
 #' @importFrom kableExtra kbl kable_classic footnote
@@ -180,6 +218,7 @@ otPrint <- function(otm_obj, ...){
     if (!is.null(func_name)){
       switch (func_name,
               "BasicStats"  = ot_print_basic_stats(otm_obj, ...),
+              "TTest"       = ot_print_ttest(otm_obj, ...),
               "Correlation" = ot_print_colleration(otm_obj, ...),
               "Glm"         = ot_print_glm(otm_obj, ...),
               "LogisticRegression" = ot_print_logistic_regression(otm_obj, ...),
