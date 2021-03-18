@@ -79,6 +79,45 @@ ot_print_ttest <- function(otm_obj, ...){
   }
 }
 
+#' Print "otCrossTable" results
+#'
+#' @importFrom kableExtra column_spec
+#' @importFrom tidyr pivot_wider
+#' @param otm_obj an object computed by "otCrossTable"
+#' @param ... further arguments passed to or from other methods.
+ot_print_crosstable <- function(otm_obj, ...){
+  dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
+               as.integer(list(...)[["digits"]]))
+  c.model <- as.character(attr(otm_obj, "otmR_model"))
+  tab_caption <- ifelse(is.null(list(...)[["caption"]]),
+                        paste0("Contingency Table(",c.model[2],"~",c.model[3],")"),
+                        list(...)[["caption"]])
+  is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
+                       as.logical(list(...)[["is.colored"]]))
+
+  cross.tbl <- otm_obj %>% pivot_wider(names_from = 2, values_from = 3)
+  return.cross.tbl <-
+    cross.tbl %>% kbl(caption = tab_caption, align = "r") %>%
+    kable_classic(full_width=FALSE) %>%
+    column_spec(1, border_right = TRUE, bold = TRUE)
+
+  if (!is.null(attr(otm_obj, "otmR_test"))){
+    res.test <- attr(otm_obj, "otmR_test")
+    tbl <- format(round(res.test[,-1], dg), nsmall = dg)
+    tbl[2,1:2] <- sub("NA","", tbl[2,1:2])  # delete character NA
+    tbl[1,2]   <- sub("\\.0*", "", tbl[1,2]) # delete .0000 from df
+    return.test <-
+      data.frame(Test=res.test$Test, tbl) %>%
+      kbl(escape = FALSE, caption = "Result of Test", align = "r") %>%
+      kable_classic(full_width = FALSE) %>%
+      column_spec(1,border_right = TRUE)
+
+    return(list(return.cross.tbl, return.test))
+  } else {
+    return(return.cross.tbl)
+  }
+}
+
 #' Print "otGlm" results
 #'
 #' @importFrom kableExtra kbl kable_classic footnote
@@ -219,6 +258,7 @@ otPrint <- function(otm_obj, ...){
       switch (func_name,
               "BasicStats"  = ot_print_basic_stats(otm_obj, ...),
               "TTest"       = ot_print_ttest(otm_obj, ...),
+              "CrossTable"  = ot_print_crosstable(otm_obj, ...),
               "Correlation" = ot_print_colleration(otm_obj, ...),
               "Glm"         = ot_print_glm(otm_obj, ...),
               "LogisticRegression" = ot_print_logistic_regression(otm_obj, ...),
