@@ -14,7 +14,7 @@ ot_print_basic_stats <- function(otm_obj, ...){
 
 #' Print "otCorrelation" results
 #'
-#' @importFrom kableExtra kbl kable_classic cell_spec row_spec
+#' @importFrom kableExtra kbl kable_classic column_spec
 #' @param otm_obj an object computed by "otCorrelation"
 #' @param ... further arguments passed to or from other methods.
 #'
@@ -25,25 +25,29 @@ ot_print_colleration <- function(otm_obj, ...){
                         list(...)[["caption"]])
   is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
                        as.logical(list(...)[["is.colored"]]))
+  alpha      <- ifelse(is.null(list(...)[["alpha"]]), 0.05,
+                       as.numeric(list(...)[["alpha"]]))
+  hi.correlation <- ifelse(is.null(list(...)[["hi.correlation"]]), 0.35,
+                       as.numeric(list(...)[["hi.correlation"]]))
+
+  res <- otm_obj %>% kbl(digits = dg, caption = tab_caption, align = "r") %>%
+    kable_classic(full_width=FALSE)
+
   if (is.colored){
-    S <- format(round(otm_obj, dg), nsmall = dg)
     P <- attr(otm_obj, "otmR_P")
-    for (i in 1:nrow(S)){
-      for (j in 1:ncol(S)){
-        if (P[i,j]<0.05){ # 0.05 is replaced by option in the future
-          S[i,j] <- cell_spec(S[i,j], background = "lightgreen")
-        }
-      }
+    for (i in 1:nrow(otm_obj)){ # res assumes [x,1+x] because otm_obj contains row.names
+      res <- column_spec(res, i+1,
+                         color = ifelse(otm_obj[,i]<hi.correlation,"#ff99cc","black"),
+                         background = ifelse(P[,i]>alpha, "white","#99ffcc"))
     }
-    kbl(S, escape = FALSE, caption = tab_caption, align = "r") %>% kable_classic(full_width=FALSE)
-  } else {
-    kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>% kable_classic(full_width=FALSE)
   }
+
+  return(res)
 }
 
 #' Print "otTTest" results
 #'
-#' @importFrom kableExtra kbl kable_classic cell_spec footnote
+#' @importFrom kableExtra kbl kable_classic column_spec footnote
 #' @param otm_obj an object computed by "otTTest"
 #' @param ... further arguments passed to or from other methods.
 #'
@@ -64,16 +68,15 @@ ot_print_ttest <- function(otm_obj, ...){
     tbl[1,6] <- sub("\\.0*","", tbl[1,6]) # adopt integer type to var.equal's t.df
     tbl[2,] <- sub("NA","", tbl[2,])      # delete character NA
 
-    if (is.colored){
-      for (i in 1:nrow(otm_obj)){
-        if (otm_obj[i,7]<alpha){
-          tbl[i,5:7] <- cell_spec(tbl[i,5:7], background = "lightgreen")
-        }
-      }
-    }
     tbl <- kbl(tbl, escape = FALSE, caption = tab_caption, align = "r") %>%
         kable_classic(full_width=FALSE) %>%
-        footnote(general = paste0("alpha is",alpha), general_title = "Note:")
+        footnote(general = paste0("alpha is ",alpha), general_title = "Note:")
+
+    if (is.colored){
+      tbl <- column_spec(tbl,6:8, color = ifelse(otm_obj[,7]<alpha,"red","black"))
+        # otm_obj contains row.name, so otm_obj is [2,9] but tbl assumes [2,1+9]
+      tbl <- row_spec(tbl, ifelse(otm_obj[1,4]>alpha,1,2), background = "#99ffcc")
+    }
 
     return(tbl)
   }
@@ -100,6 +103,13 @@ ot_print_crosstable <- function(otm_obj, ...){
     cross.tbl %>% kbl(caption = tab_caption, align = "r") %>%
     kable_classic(full_width=FALSE) %>%
     column_spec(1, border_right = TRUE, bold = TRUE)
+
+  if (is.colored){
+    for (i in 2:ncol(cross.tbl)){
+      return.cross.tbl <- column_spec(return.cross.tbl, i,
+                                      color = ifelse(cross.tbl[,i]<5,"red","black"))
+    }
+  }
 
   if (!is.null(attr(otm_obj, "otmR_test"))){
     res.test <- attr(otm_obj, "otmR_test")
