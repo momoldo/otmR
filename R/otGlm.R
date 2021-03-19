@@ -7,7 +7,7 @@
 #' @importFrom dplyr select
 #' @importFrom tibble add_column
 #' @importFrom stats model.frame model.matrix.lm model.response
-#'     glm glm.fit gaussian summary.lm pf
+#'     glm glm.fit gaussian summary.lm pf formula
 #' @param data a data.frame object including both a dependent variables and independent
 #'   variables.
 #' @param model an object of class "formula": a symbolic description
@@ -17,7 +17,10 @@
 #' @export
 #'
 otGlm <- function(data, model=NULL, is.residual=FALSE){
-  if (!is.null(model)){
+  if ((!is.null(data))&&(ncol(data)>=2)){
+    if (is.null(model)){ # if NULL, model formula is made from data[,1]~data[,2]+data[,3]...
+      model <- formula(paste0(names(data)[1],"~", paste0(names(data)[-1],collapse = "+")))
+    }
     d <- model.frame(model, data = data)
     res.fit <- glm(model, data = data.frame(d), family = gaussian)
     v.dep <- model.matrix.lm(d) %>% data.frame() %>%

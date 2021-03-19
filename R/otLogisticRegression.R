@@ -5,7 +5,7 @@
 #' 0-1 value.
 #'
 #' @importFrom purrr modify
-#' @importFrom stats model.frame glm binomial residuals
+#' @importFrom stats model.frame glm binomial residuals formula
 #' @importFrom dplyr filter count
 #' @param data a data.frame object including both a dependent variables and independent
 #'   variables.
@@ -16,8 +16,12 @@
 #' @export
 #'
 otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
-  if (!is.null(model)){
+  if ((!is.null(data))&&(ncol(data)>=2)){
+    if (is.null(model)){ # if NULL, model formula is made from data[,1]~data[,2]+data[,3]...
+      model <- formula(paste0(names(data)[1],"~", paste0(names(data)[-1],collapse = "+")))
+    }
     d <- data.frame(model.frame(model, data = data))
+
     res.fit <- glm(model, data = d, family = binomial(link = "logit"))
     res.summary <- summary(res.fit)
     res <- data.frame(beta = res.fit$coefficients,

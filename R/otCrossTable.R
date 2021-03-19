@@ -5,7 +5,7 @@
 #' otCrossTable use a formula to set two variables.  This is why
 #' other ot-functions use formula style.
 #'
-#' @importFrom stats model.frame chisq.test fisher.test
+#' @importFrom stats model.frame chisq.test fisher.test formula na.pass
 #' @param data a data.frame object including two variables
 #' @param model a formula "var_a ~ var_b" style
 #' @param omit.na a logical value.  If TRUE, NA is deleted
@@ -14,10 +14,15 @@
 #'   fisher.test are submitted.
 #' @export
 
-otCrossTable <- function(data, model, omit.na=FALSE, is.test=TRUE){
-  if (!is.null(model)){
+otCrossTable <- function(data, model=NULL, omit.na=FALSE, is.test=TRUE){
+  if ((!is.null(data))&&(ncol(data)>=2)){
     na_action <- ifelse(omit.na, "no","ifany")
-    d <- model.frame(model, data = data)
+
+    if (is.null(model)){ # if NULL, formula is made from data[,1:2]
+      model <- formula(paste0(names(data)[1], "~", names(data)[2]))
+    }
+
+    d <- model.frame(model, data = data, na.action = na.pass)
     tbl <- table(d[,1],d[,2], useNA = na_action)
 
     res <- data.frame(tbl)
