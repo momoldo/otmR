@@ -99,6 +99,8 @@ ot_print_crosstable <- function(otm_obj, ...){
                        as.logical(list(...)[["is.colored"]]))
 
   cross.tbl <- otm_obj %>% pivot_wider(names_from = 2, values_from = 3)
+  row_name <- as.character(cross.tbl[,1])
+
   return.cross.tbl <-
     cross.tbl %>% kbl(caption = tab_caption, align = "r") %>%
     kable_classic(full_width=FALSE) %>%
