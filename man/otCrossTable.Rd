@@ -4,7 +4,7 @@
 \alias{otCrossTable}
 \title{Cross Table}
 \usage{
-otCrossTable(data, model = NULL, omit.na = FALSE, is.test = TRUE)
+otCrossTable(data, model = NULL, omit.na = TRUE, is.test = TRUE)
 }
 \arguments{
 \item{data}{a data.frame object including two variables}
