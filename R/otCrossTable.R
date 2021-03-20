@@ -14,7 +14,7 @@
 #'   fisher.test are submitted.
 #' @export
 
-otCrossTable <- function(data, model=NULL, omit.na=FALSE, is.test=TRUE){
+otCrossTable <- function(data, model=NULL, omit.na=TRUE, is.test=TRUE){
   if ((!is.null(data))&&(ncol(data)>=2)){
     na_action <- ifelse(omit.na, "no","ifany")
 
