@@ -212,7 +212,10 @@ ot_print_logistic_regression <- function(otm_obj, ...){
       footnote(general = paste0("Accuracy=",    format(round(fit$r.accuracy,3), nsmall = 3),
                                 ", Precision=", format(round(fit$r.precision,3), nsmall = 3),
                                 ", Recall=",    format(round(fit$r.recall,3), nsmall = 3),
-                                ", Specificity=", format(round(fit$r.specificity,3), nsmall = 3)),
+                                ", Specificity=", format(round(fit$r.specificity,3), nsmall = 3),
+                                ", TP=", fit$T_Pos, ", TN=", fit$T_Neg,
+                                ", FP=", fit$F_Pos, ", FN=", fit$F_Neg,
+                                " Acr=(TP+TN)/TTL, Prc=TP/(TP+FP), Rcl=TP/(TP+FN), Spc=TN/(FP+TN)"),
                general_title = "Note:")
 
   df.res <- attr(otm_obj, "otmR_residual")
