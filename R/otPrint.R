@@ -5,11 +5,10 @@
 #' @param ... further arguments passed to or from other methods.
 #'
 ot_print_basic_stats <- function(otm_obj, ...){
-  dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
-               as.integer(list(...)[["digits"]]))
-  tab_caption <- ifelse(is.null(list(...)[["caption"]]),"Basic Statistics",
-                        list(...)[["caption"]])
-  kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>% kable_classic(full_width=FALSE)
+  opt <- attr(otm_obj, "otmR_options")
+
+  kbl(otm_obj, digits = opt$digits, caption = opt$caption, align = "r") %>%
+    kable_classic(full_width=FALSE)
 }
 
 #' Print "otCorrelation" results
@@ -19,26 +18,17 @@ ot_print_basic_stats <- function(otm_obj, ...){
 #' @param ... further arguments passed to or from other methods.
 #'
 ot_print_colleration <- function(otm_obj, ...){
-  dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
-               as.integer(list(...)[["digits"]]))
-  tab_caption <- ifelse(is.null(list(...)[["caption"]]),"Correlation Matrix",
-                        list(...)[["caption"]])
-  is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
-                       as.logical(list(...)[["is.colored"]]))
-  alpha      <- ifelse(is.null(list(...)[["alpha"]]), 0.05,
-                       as.numeric(list(...)[["alpha"]]))
-  hi.correlation <- ifelse(is.null(list(...)[["hi.correlation"]]), 0.35,
-                       as.numeric(list(...)[["hi.correlation"]]))
+  opt <- attr(otm_obj, "otmR_options")
 
-  res <- otm_obj %>% kbl(digits = dg, caption = tab_caption, align = "r") %>%
+  res <- otm_obj %>% kbl(digits = opt$digits, caption = opt$caption, align = "r") %>%
     kable_classic(full_width=FALSE)
 
-  if (is.colored){
+  if (opt$colored){
     P <- attr(otm_obj, "otmR_P")
     for (i in 1:nrow(otm_obj)){ # res assumes [x,1+x] because otm_obj contains row.names
       res <- column_spec(res, i+1,
-                         color = ifelse(otm_obj[,i]<hi.correlation,"#ff99cc","black"),
-                         background = ifelse(P[,i]>alpha, "white","#99ffcc"))
+                         color = ifelse(otm_obj[,i]<opt$hi.correlation, "#ff99cc", "black"),
+                         background = ifelse(P[,i]>opt$alpha, "white","#99ffcc"))
     }
   }
 
@@ -52,30 +42,21 @@ ot_print_colleration <- function(otm_obj, ...){
 #' @param ... further arguments passed to or from other methods.
 #'
 ot_print_ttest <- function(otm_obj, ...){
-  dg    <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
-                  as.integer(list(...)[["digits"]]))
-  alpha <- ifelse(is.null(attr(otm_obj, "otmR_alpha")), 0.95,
-                  as.numeric(attr(otm_obj, "otmR_alpha")))
-  c.model <- as.character(attr(otm_obj, "otmR_model"))
-  tab_caption <- ifelse(is.null(list(...)[["caption"]]),
-                        paste0("Student's t-Test Result(",c.model[2],"~",c.model[3],")"),
-                        list(...)[["caption"]])
-  is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
-                       as.logical(list(...)[["is.colored"]]))
+  opt <- attr(otm_obj, "otmR_options")
 
   if (!is.null(otm_obj)){
-    tbl <- format(round(otm_obj, dg), nsmall = dg)
+    tbl <- format(round(otm_obj, opt$digits), nsmall = opt$digits)
     tbl[1,6] <- sub("\\.0*","", tbl[1,6]) # adopt integer type to var.equal's t.df
     tbl[2,] <- sub("NA","", tbl[2,])      # delete character NA
 
-    tbl <- kbl(tbl, escape = FALSE, caption = tab_caption, align = "r") %>%
+    tbl <- kbl(tbl, escape = FALSE, caption = opt$caption, align = "r") %>%
         kable_classic(full_width=FALSE) %>%
-        footnote(general = paste0("alpha is ",alpha), general_title = "Note:")
+        footnote(general = paste0("alpha is ",opt$alpha), general_title = "Note:")
 
-    if (is.colored){
-      tbl <- column_spec(tbl,6:8, color = ifelse(otm_obj[,7]<alpha,"red","black"))
+    if (opt$colored){
+      tbl <- column_spec(tbl,6:8, color = ifelse(otm_obj[,7]<opt$alpha,"black","#ff99cc"))
         # otm_obj contains row.name, so otm_obj is [2,9] but tbl assumes [2,1+9]
-      tbl <- row_spec(tbl, ifelse(otm_obj[1,4]>alpha,1,2), background = "#99ffcc")
+      tbl <- row_spec(tbl, ifelse(otm_obj[1,4]>opt$alpha,1,2), background = "#99ffcc")
     }
 
     return(tbl)
@@ -89,24 +70,17 @@ ot_print_ttest <- function(otm_obj, ...){
 #' @param otm_obj an object computed by "otCrossTable"
 #' @param ... further arguments passed to or from other methods.
 ot_print_crosstable <- function(otm_obj, ...){
-  dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
-               as.integer(list(...)[["digits"]]))
-  c.model <- as.character(attr(otm_obj, "otmR_model"))
-  tab_caption <- ifelse(is.null(list(...)[["caption"]]),
-                        paste0("Contingency Table(",c.model[2],"~",c.model[3],")"),
-                        list(...)[["caption"]])
-  is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
-                       as.logical(list(...)[["is.colored"]]))
+  opt <- attr(otm_obj, "otmR_options")
 
   cross.tbl <- otm_obj %>% pivot_wider(names_from = 2, values_from = 3)
   row_name <- as.character(cross.tbl[,1])
 
   return.cross.tbl <-
-    cross.tbl %>% kbl(caption = tab_caption, align = "r") %>%
+    cross.tbl %>% kbl(caption = opt$caption, align = "r") %>%
     kable_classic(full_width=FALSE) %>%
     column_spec(1, border_right = TRUE, bold = TRUE)
 
-  if (is.colored){
+  if (opt$colored){
     for (i in 2:ncol(cross.tbl)){
       return.cross.tbl <- column_spec(return.cross.tbl, i,
                                       color = ifelse(cross.tbl[,i]<5,"red","black"))
@@ -115,7 +89,7 @@ ot_print_crosstable <- function(otm_obj, ...){
 
   if (!is.null(attr(otm_obj, "otmR_test"))){
     res.test <- attr(otm_obj, "otmR_test")
-    tbl <- format(round(res.test[,-1], dg), nsmall = dg)
+    tbl <- format(round(res.test[,-1], opt$digits), nsmall = opt$digits)
     tbl[2,1:2] <- sub("NA","", tbl[2,1:2])  # delete character NA
     tbl[1,2]   <- sub("\\.0*", "", tbl[1,2]) # delete .0000 from df
     return.test <-
@@ -138,23 +112,17 @@ ot_print_crosstable <- function(otm_obj, ...){
 #' @param ... further arguments passed to or from other methods.
 #'
 ot_print_glm <- function(otm_obj, ...){
-  dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
-               as.integer(list(...)[["digits"]]))
-  c.model <- as.character(attr(otm_obj, "otmR_model"))
-  tab_caption <- ifelse(is.null(list(...)[["caption"]]),
-                        paste0("Glm Result(",c.model[2],"~",c.model[3],")"),
-                        list(...)[["caption"]])
-  fit <- attr(otm_obj, "otmR_fit")
-  is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
-                       as.logical(list(...)[["is.colored"]]))
+  opt <- attr(otm_obj, "otmR_options")
 
-  if (is.colored){
+  fit <- attr(otm_obj, "otmR_fit")
+
+    if (opt$colored){
     color_row <- which(otm_obj$p.value < 0.05) # 0.05 is replaced by option in the future
-    tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>%
+    tab <- kbl(otm_obj, digits = opt$digits, caption = opt$caption, align = "r") %>%
       row_spec(color_row, background = "lightgreen")
 
   } else {
-    tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r")
+    tab <- kbl(otm_obj, digits = opt$digits, caption = opt$caption, align = "r")
   }
 
   return.tab <-
@@ -171,7 +139,7 @@ ot_print_glm <- function(otm_obj, ...){
   if (!is.null(df.res)){
     return.residual <-
       df.res %>% head() %>%
-        kbl(digits = dg, caption = "Rank of Residuals", align = "r") %>%
+        kbl(digits = opt$digits, caption = "Rank of Residuals", align = "r") %>%
         kable_classic(full_width=FALSE)
     return(list(return.tab, return.residual))
   } else {
@@ -186,23 +154,17 @@ ot_print_glm <- function(otm_obj, ...){
 #' @param ... further arguments passed to or from other methods.
 #'
 ot_print_logistic_regression <- function(otm_obj, ...){
-  dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
-               as.integer(list(...)[["digits"]]))
-  c.model <- as.character(attr(otm_obj, "otmR_model"))
-  tab_caption <- ifelse(is.null(list(...)[["caption"]]),
-                        paste0("Glm Result(",c.model[2],"~",c.model[3],")"),
-                        list(...)[["caption"]])
-  fit <- attr(otm_obj, "otmR_fit")
-  is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
-                       as.logical(list(...)[["is.colored"]]))
+  opt <- attr(otm_obj, "otmR_options")
 
-  if (is.colored){
+  fit <- attr(otm_obj, "otmR_fit")
+
+  if (opt$colored){
     color_row <- which(otm_obj$p.value < 0.05) # 0.05 is replaced by option in the future
-    tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>%
+    tab <- kbl(otm_obj, digits = opt$digits, caption = opt$caption, align = "r") %>%
       row_spec(color_row, background = "lightgreen")
 
   } else {
-    tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r")
+    tab <- kbl(otm_obj, digits = opt$digits, caption = opt$caption, align = "r")
   }
 
   fit <- attr(otm_obj, "otmR_fit")
@@ -225,7 +187,7 @@ ot_print_logistic_regression <- function(otm_obj, ...){
   if (!is.null(df.res)){
     return.residual <-
       df.res %>% head() %>%
-        kbl(digits = dg, caption = "Rank of Residuals", align = "r") %>%
+        kbl(digits = opt$digits, caption = "Rank of Residuals", align = "r") %>%
         kable_classic(full_width=FALSE)
     return(list(return.tab, return.residual))
   } else {
@@ -242,21 +204,14 @@ ot_print_logistic_regression <- function(otm_obj, ...){
 #' @param ... further arguments passed to or from other methods.
 #'
 ot_print_anova <- function(otm_obj, ...){
-  dg <- ifelse(is.null(list(...)[["digits"]]),getOption("digits"),
-               as.integer(list(...)[["digits"]]))
-  c.model <- as.character(attr(otm_obj, "otmR_model"))
-  tab_caption <- ifelse(is.null(list(...)[["caption"]]),
-                        paste0("ANOVA Tables(",c.model[2],"~",c.model[3],")"),
-                        list(...)[["caption"]])
-  is.colored <- ifelse(is.null(list(...)[["is.colored"]]), TRUE,
-                       as.logical(list(...)[["is.colored"]]))
+  opt <- attr(otm_obj, "otmR_options")
 
-  if (is.colored){
-    color_row <- which(otm_obj[,5] < 0.05) # 0.05 is replaced by option in the future
-    tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r") %>%
+  if (opt$colored){
+    color_row <- which(otm_obj[,5] < opt$alpha)
+    tab <- kbl(otm_obj, digits = opt$digits, caption = opt$caption, align = "r") %>%
       row_spec(color_row, background = "lightgreen")
   } else {
-    tab <- kbl(otm_obj, digits = dg, caption = tab_caption, align = "r")
+    tab <- kbl(otm_obj, digits = opt$digits, caption = opt$caption, align = "r")
   }
   tab %>%
     kable_classic(full_width=FALSE)
@@ -274,15 +229,43 @@ otPrint <- function(otm_obj, digits = 3, ...){
   if (!is.null(otm_obj)){
     options(knitr.kable.NA = '')
     func_name <- attr(otm_obj, "otmR_func")
+
+    dg <- ifelse(is.null(digits),getOption("digits"), digits)
+
+    c.model <- attr(otm_obj, "otmR_model")
+    tab_caption <- ifelse(is.null(list(...)[["caption"]]),
+                          paste0("Result of ", func_name), list(...)[["caption"]])
+    if (!is.null(c.model)){
+      c.model <- as.character(c.model)
+      tab_caption <- paste0(tab_caption, "(",c.model[2],"~",c.model[3],")")
+    }
+    is.colored <- # coloring option
+      ifelse(is.null(list(...)[["is.colored"]]),
+             TRUE, as.logical(list(...)[["is.colored"]]))
+    alpha <- # significant level, otTTest otCorrelation
+      ifelse(is.null(attr(otm_obj, "otmR_alpha")),
+             0.05, as.numeric(attr(otm_obj, "otmR_alpha")))
+    hi.correlation <- # otCorrelation
+      ifelse(is.null(list(...)[["hi.correlation"]]),
+             0.35, as.numeric(list(...)[["hi.correlation"]]))
+
+    attr(otm_obj, "otmR_options") <- list(
+      digits   = dg,
+      caption  = tab_caption,
+      colored  = is.colored,
+      alpha    = alpha,
+      hi.correlation = hi.correlation
+    )
+
     if (!is.null(func_name)){
       switch (func_name,
-              "BasicStats"  = ot_print_basic_stats(otm_obj, digits = digits, ...),
-              "TTest"       = ot_print_ttest(otm_obj, digits = digits, ...),
-              "CrossTable"  = ot_print_crosstable(otm_obj, digits = digits, ...),
-              "Correlation" = ot_print_colleration(otm_obj, digits = digits, ...),
-              "Glm"         = ot_print_glm(otm_obj, digits = digits, ...),
-              "LogisticRegression" = ot_print_logistic_regression(otm_obj, digits = digits, ...),
-              "ANOVA"       = ot_print_anova(otm_obj, digits = digits, ...),
+              "BasicStats"  = ot_print_basic_stats(otm_obj, ...),
+              "TTest"       = ot_print_ttest(otm_obj, ...),
+              "CrossTable"  = ot_print_crosstable(otm_obj, ...),
+              "Correlation" = ot_print_colleration(otm_obj, ...),
+              "Glm"         = ot_print_glm(otm_obj, ...),
+              "LogisticRegression" = ot_print_logistic_regression(otm_obj, ...),
+              "ANOVA"       = ot_print_anova(otm_obj, ...),
               print(otm_obj)
       )
     }
