@@ -11,6 +11,31 @@ ot_print_basic_stats <- function(otm_obj, ...){
     kable_classic(full_width=FALSE)
 }
 
+#' Print "otFrequencyTable" results
+#'
+#' @importFrom kableExtra kbl kable_classic footnote
+#' @importFrom purrr map2
+#' @param otm_obj an object computed by "otFrequencyTable"
+#'
+ot_print_frequencytable <- function(otm_obj){
+  opt <- attr(otm_obj, "otmR_options")
+  options(knitr.kable.NA = 'NA') # NA shows "NA"
+
+  print_freqtable_vec <- function(x, var_name){
+    n_na <- attr(x, "otmR_NA")
+    kbl(x, digits = opt$digits,
+        caption = paste0(opt$caption, "(",var_name,")"), align = "r") %>%
+      kable_classic(full_width=FALSE) %>%
+      footnote(general = paste0("Missing=",n_na),
+               general_title = "Note:")
+  }
+
+  if (is.list(otm_obj)){
+    varname_vec <- names(otm_obj)
+    otm_obj %>% map2(varname_vec, print_freqtable_vec)
+  }
+}
+
 #' Print "otCorrelation" results
 #'
 #' @importFrom kableExtra kbl kable_classic column_spec
@@ -261,6 +286,7 @@ otPrint <- function(otm_obj, digits = 3, ...){
     if (!is.null(func_name)){
       switch (func_name,
               "BasicStats"  = ot_print_basic_stats(otm_obj, ...),
+              "Frequency Table" = ot_print_frequencytable(otm_obj),
               "TTest"       = ot_print_ttest(otm_obj, ...),
               "CrossTable"  = ot_print_crosstable(otm_obj, ...),
               "Correlation" = ot_print_colleration(otm_obj, ...),
