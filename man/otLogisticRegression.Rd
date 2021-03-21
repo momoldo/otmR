@@ -4,7 +4,12 @@
 \alias{otLogisticRegression}
 \title{Logistic Regression}
 \usage{
-otLogisticRegression(data, model = NULL, is.residual = FALSE)
+otLogisticRegression(
+  data,
+  model = NULL,
+  is.residual = FALSE,
+  p.threshold = 0.5
+)
 }
 \arguments{
 \item{data}{a data.frame object including both a dependent variables and independent
@@ -15,6 +20,8 @@ of the model to be fitted.}
 
 \item{is.residual}{a logical value indicating whether return object
 have residual information or not.}
+
+\item{p.threshold}{a numeric value indicating p.value whether Y.HAT = 1 or Y.HAT or 0}
 }
 \description{
 otLogisticRegression is used to fit logistic models,

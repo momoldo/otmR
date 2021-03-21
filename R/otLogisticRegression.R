@@ -12,9 +12,10 @@
 #'   of the model to be fitted.
 #' @param is.residual a logical value indicating whether return object
 #'   have residual information or not.
+#' @param p.threshold a numeric value indicating p.value whether Y.HAT = 1 or Y.HAT or 0
 #' @export
 #'
-otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
+otLogisticRegression <- function(data, model=NULL, is.residual=FALSE, p.threshold=0.5){
   if ((!is.null(data))&&(ncol(data)>=2)){
     if (is.null(model)){ # if NULL, model formula is made from data[,1]~data[,2]+data[,3]...
       model <- formula(paste0(names(data)[1],"~", paste0(names(data)[-1],collapse = "+")))
@@ -34,32 +35,20 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
 
     pred <- data.frame(
       Y = res.fit$y,
-      Y.HAT = round(res.fit$fitted.values,0),
+      Y.HAT = ifelse(res.fit$fitted.values >= p.threshold, 1, 0),
       Y.pred = res.fit$fitted.values,
       devience = residuals(res.fit), row.names = NULL)
 
-    confusion_matrix <- table(pred$Y.HAT, pred$Y)
-    if ((nrow(confusion_matrix)==2)&&(ncol(confusion_matrix)==2)){
-      TP <- confusion_matrix[2,2] # Y=1, Y.HAT=1, True_Positive
-      TN <- confusion_matrix[1,1] # Y=0, Y.HAT=0, True_Negative
-      FP <- confusion_matrix[1,2] # Y=1, Y.HAT=0, False_Positive
-      FN <- confusion_matrix[2,1] # Y=0, Y.HAT=1, False_Negative
-      fit <- data.frame(
-        T_Pos = TP, T_Neg = TN, F_Pos = FP, F_Neg = FN,
-        r.accuracy  = (TP + TN) / (TP + TN + FP + FN),
-        r.precision = TP / (TP + FP),
-        r.recall = TP / (TP + FN),
-        r.specificity = TN / (FP + TN)
-      )
-    } else {
-      fit <- data.frame(
-        T_Pos = NA, T_Neg = NA, F_Pos = NA, F_Neg = NA,
-        r.accuracy  = NA,
-        r.precision = NA,
-        r.recall = NA,
-        r.specificity = NA
-      )
-    }
+    TP <- length(pred$Y[(pred$Y==1)&(pred$Y.HAT==1)]) # True_Positive
+    TN <- length(pred$Y[(pred$Y==0)&(pred$Y.HAT==0)]) # True_Negative
+    FP <- length(pred$Y[(pred$Y==1)&(pred$Y.HAT==0)]) # False_Positive
+    FN <- length(pred$Y[(pred$Y==0)&(pred$Y.HAT==1)]) # False_Negative
+    fit <- data.frame(
+      T_Pos = TP, T_Neg = TN, F_Pos = FP, F_Neg = FN,
+      r.accuracy  = (TP + TN) / (TP + TN + FP + FN),
+      r.precision = TP / (TP + FP),
+      r.recall = TP / (TP + FN),
+      r.specificity = TN / (FP + TN))
 
     attr(res, "otmR_fit") <- fit
     if (is.residual){
