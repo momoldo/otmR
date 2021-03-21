@@ -71,6 +71,7 @@ ot_print_ttest <- function(otm_obj, ...){
 #' @param ... further arguments passed to or from other methods.
 ot_print_crosstable <- function(otm_obj, ...){
   opt <- attr(otm_obj, "otmR_options")
+  options(knitr.kable.NA = 'NA')
 
   cross.tbl <- otm_obj %>% pivot_wider(names_from = 2, values_from = 3)
   row_name <- as.character(cross.tbl[,1])
