@@ -74,7 +74,7 @@ using glm functions.  An independent variable must have
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">otmR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
       </span>
     </div>
 
@@ -116,7 +116,12 @@ using glm functions.  An independent variable must have
 0-1 value.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>otLogisticRegression</span><span class='op'>(</span><span class='va'>data</span>, model <span class='op'>=</span> <span class='cn'>NULL</span>, is.residual <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>otLogisticRegression</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  model <span class='op'>=</span> <span class='cn'>NULL</span>,
+  is.residual <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  p.threshold <span class='op'>=</span> <span class='fl'>0.5</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -135,6 +140,10 @@ of the model to be fitted.</p></td>
       <th>is.residual</th>
       <td><p>a logical value indicating whether return object
 have residual information or not.</p></td>
+    </tr>
+    <tr>
+      <th>p.threshold</th>
+      <td><p>a numeric value indicating p.value whether Y.HAT = 1 or Y.HAT or 0</p></td>
     </tr>
     </table>
 
