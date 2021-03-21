@@ -39,7 +39,7 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
       devience = residuals(res.fit), row.names = NULL)
 
     confusion_matrix <- table(pred$Y.HAT, pred$Y)
-    if ((nrow(confusion.matrix)==2)&&(ncol(confusion_matrix)==2)){
+    if ((nrow(confusion_matrix)==2)&&(ncol(confusion_matrix)==2)){
       TP <- confusion_matrix[2,2] # Y=1, Y.HAT=1, True_Positive
       TN <- confusion_matrix[1,1] # Y=0, Y.HAT=0, True_Negative
       FP <- confusion_matrix[1,2] # Y=1, Y.HAT=0, False_Positive

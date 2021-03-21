@@ -1,7 +1,7 @@
 Package: otmR
 Type: Package
 Title: R packages for Otemon Gakuin University
-Version: 0.0.7
+Version: 0.0.7.1
 Author: Akira Harada
 Maintainer: The package maintainer <momoldo@gmail.com>
 Description: R functions are used for R classroom.
