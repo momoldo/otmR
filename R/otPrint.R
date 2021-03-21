@@ -211,14 +211,14 @@ ot_print_logistic_regression <- function(otm_obj, ...){
     tab %>% kable_classic(full_width=FALSE) %>%
       footnote(general = paste0("Kappa=", format(round(fit$Kappa,3), nsmall = 3),
                                 ", AIC=", format(round(fit$AIC,3), nsmall = 3),
-                                ", BIC=", format(round(fit$BIC,3), nsmall = 3),
-                                ", Accuracy=",    format(round(fit$r.accuracy,3), nsmall = 3),
+                                ", BIC=", format(round(fit$BIC,3), nsmall = 3), "\n",
+                                "Accuracy=",    format(round(fit$r.accuracy,3), nsmall = 3),
                                 ", Precision=",   format(round(fit$r.precision,3), nsmall = 3),
                                 ", Recall=",      format(round(fit$r.recall,3), nsmall = 3),
-                                ", Specificity=", format(round(fit$r.specificity,3), nsmall = 3),
-                                ", TP=", fit$T_Pos, ", TN=", fit$T_Neg,
-                                ", FP=", fit$F_Pos, ", FN=", fit$F_Neg,
-                                " Acr=(TP+TN)/TTL, Prc=TP/(TP+FP), Rcl=TP/(TP+FN), Spc=TN/(FP+TN)"),
+                                ", Specificity=", format(round(fit$r.specificity,3), nsmall = 3), "\n",
+                                "TP=", fit$T_Pos, ", TN=", fit$T_Neg,
+                                ", FP=", fit$F_Pos, ", FN=", fit$F_Neg, "\n",
+                                "Acr=(TP+TN)/TTL, Prc=TP/(TP+FP), Rcl=TP/(TP+FN), Spc=TN/(FP+TN)"),
                general_title = "Note:")
 
   df.res <- attr(otm_obj, "otmR_residual")
