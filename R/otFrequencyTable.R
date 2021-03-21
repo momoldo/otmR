@@ -14,8 +14,8 @@ otFrequencyTable <- function(data, omit.na = FALSE){
     cum_sum <- cumsum(d[,2])
     r_freq <- d[,2]/sum(d[,2])
     r_cum_sum <- cum_sum / sum(d[,2])
-    data.frame(Variable=d[,1], Fr=d[,2], C_Fr=cum_sum,
-               R_Fr=r_freq, C_R_Fr=r_cum_sum)
+    data.frame(Variable=d[,1], Frequency=d[,2], Cumulative.F=cum_sum,
+               Relative.F=r_freq, Cumulative.R.F=r_cum_sum)
   }
   if (!is.null(data)){
     na_action <- ifelse(omit.na, "no", "ifany")
