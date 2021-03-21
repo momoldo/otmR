@@ -39,17 +39,27 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE){
       devience = residuals(res.fit), row.names = NULL)
 
     confusion_matrix <- table(pred$Y.HAT, pred$Y)
-    TP <- confusion_matrix[2,2] # Y=1, Y.HAT=1, True_Positive
-    TN <- confusion_matrix[1,1] # Y=0, Y.HAT=0, True_Negative
-    FP <- confusion_matrix[1,2] # Y=1, Y.HAT=0, False_Positive
-    FN <- confusion_matrix[2,1] # Y=0, Y.HAT=1, False_Negative
-    fit <- data.frame(
-      T_Pos = TP, T_Neg = TN, F_Pos = FP, F_Neg = FN,
-      r.accuracy  = (TP + TN) / (TP + TN + FP + FN),
-      r.precision = TP / (TP + FP),
-      r.recall = TP / (TP + FN),
-      r.specificity = TN / (FP + TN)
-    )
+    if ((nrow(confusion.matrix)==2)&&(ncol(confusion_matrix)==2)){
+      TP <- confusion_matrix[2,2] # Y=1, Y.HAT=1, True_Positive
+      TN <- confusion_matrix[1,1] # Y=0, Y.HAT=0, True_Negative
+      FP <- confusion_matrix[1,2] # Y=1, Y.HAT=0, False_Positive
+      FN <- confusion_matrix[2,1] # Y=0, Y.HAT=1, False_Negative
+      fit <- data.frame(
+        T_Pos = TP, T_Neg = TN, F_Pos = FP, F_Neg = FN,
+        r.accuracy  = (TP + TN) / (TP + TN + FP + FN),
+        r.precision = TP / (TP + FP),
+        r.recall = TP / (TP + FN),
+        r.specificity = TN / (FP + TN)
+      )
+    } else {
+      fit <- data.frame(
+        T_Pos = NA, T_Neg = NA, F_Pos = NA, F_Neg = NA,
+        r.accuracy  = NA,
+        r.precision = NA,
+        r.recall = NA,
+        r.specificity = NA
+      )
+    }
 
     attr(res, "otmR_fit") <- fit
     if (is.residual){
