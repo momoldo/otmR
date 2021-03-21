@@ -210,6 +210,8 @@ ot_print_logistic_regression <- function(otm_obj, ...){
   return.tab <-
     tab %>% kable_classic(full_width=FALSE) %>%
       footnote(general = paste0("Kappa=", format(round(fit$Kappa,3), nsmall = 3),
+                                ", AIC=", format(round(fit$AIC,3), nsmall = 3),
+                                ", BIC=", format(round(fit$BIC,3), nsmall = 3),
                                 ", Accuracy=",    format(round(fit$r.accuracy,3), nsmall = 3),
                                 ", Precision=",   format(round(fit$r.precision,3), nsmall = 3),
                                 ", Recall=",      format(round(fit$r.recall,3), nsmall = 3),
@@ -274,13 +276,13 @@ otPrint <- function(otm_obj, digits = 3, ...){
     func_name <- attr(otm_obj, "otmR_func")
     if (!is.null(func_name)){
       switch (func_name,
-              "BasicStats"  = ot_print_basic_stats(otm_obj, ...),
-              "TTest"       = ot_print_ttest(otm_obj, ...),
-              "CrossTable"  = ot_print_crosstable(otm_obj, ...),
-              "Correlation" = ot_print_colleration(otm_obj, ...),
-              "Glm"         = ot_print_glm(otm_obj, ...),
-              "LogisticRegression" = ot_print_logistic_regression(otm_obj, ...),
-              "ANOVA"       = ot_print_anova(otm_obj, ...),
+              "BasicStats"  = ot_print_basic_stats(otm_obj, digits = digits, ...),
+              "TTest"       = ot_print_ttest(otm_obj, digits = digits, ...),
+              "CrossTable"  = ot_print_crosstable(otm_obj, digits = digits, ...),
+              "Correlation" = ot_print_colleration(otm_obj, digits = digits, ...),
+              "Glm"         = ot_print_glm(otm_obj, digits = digits, ...),
+              "LogisticRegression" = ot_print_logistic_regression(otm_obj, digits = digits, ...),
+              "ANOVA"       = ot_print_anova(otm_obj, digits = digits, ...),
               print(otm_obj)
       )
     }

@@ -5,7 +5,7 @@
 #' 0-1 value.
 #'
 #' @importFrom purrr modify
-#' @importFrom stats model.frame glm binomial residuals formula
+#' @importFrom stats model.frame glm binomial residuals formula logLik
 #' @param data a data.frame object including both a dependent variables and independent
 #'   variables.
 #' @param model an object of class "formula": a symbolic description
@@ -52,7 +52,9 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE, p.threshol
       r.precision = TP / (TP + FP),
       r.recall = TP / (TP + FN),
       r.specificity = TN / (FP + TN),
-      Kappa = (p0 - pe) / (1 - pe))
+      Kappa = (p0 - pe) / (1 - pe), # Cohen(1960)
+      AIC   = -2 * as.numeric(logLik(res.fit)) + 2 * as.numeric(attr(logLik(res.fit),"df")),
+      BIC   = -2 * as.numeric(logLik(res.fit)) + 3 * log(TTL))
 
     attr(res, "otmR_fit") <- fit
     if (is.residual){
