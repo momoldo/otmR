@@ -43,12 +43,16 @@ otLogisticRegression <- function(data, model=NULL, is.residual=FALSE, p.threshol
     TN <- length(pred$Y[(pred$Y==0)&(pred$Y.HAT==0)]) # True_Negative
     FP <- length(pred$Y[(pred$Y==1)&(pred$Y.HAT==0)]) # False_Positive
     FN <- length(pred$Y[(pred$Y==0)&(pred$Y.HAT==1)]) # False_Negative
+    TTL <- TP + TN + FP + FN
+    p0 <- (TP+TN)/TTL # accuracy
+    pe <- ((TP+FP)*(TP+FN)+(FN+TN)*(FP+TN))/TTL/TTL
     fit <- data.frame(
       T_Pos = TP, T_Neg = TN, F_Pos = FP, F_Neg = FN,
       r.accuracy  = (TP + TN) / (TP + TN + FP + FN),
       r.precision = TP / (TP + FP),
       r.recall = TP / (TP + FN),
-      r.specificity = TN / (FP + TN))
+      r.specificity = TN / (FP + TN),
+      Kappa = (p0 - pe) / (1 - pe))
 
     attr(res, "otmR_fit") <- fit
     if (is.residual){
