@@ -98,7 +98,7 @@ ot_print_crosstable <- function(otm_obj, ...){
       kable_classic(full_width = FALSE) %>%
       column_spec(1,border_right = TRUE)
 
-    return(list(return.cross.tbl, return.test))
+    return(list("Contingency Table"=return.cross.tbl, "Result of Test"=return.test))
   } else {
     return(return.cross.tbl)
   }
@@ -141,7 +141,7 @@ ot_print_glm <- function(otm_obj, ...){
       df.res %>% head() %>%
         kbl(digits = opt$digits, caption = "Rank of Residuals", align = "r") %>%
         kable_classic(full_width=FALSE)
-    return(list(return.tab, return.residual))
+    return(list("GLM Result"=return.tab, "Info of Residual"=return.residual))
   } else {
     return(return.tab)
   }
@@ -189,7 +189,7 @@ ot_print_logistic_regression <- function(otm_obj, ...){
       df.res %>% head() %>%
         kbl(digits = opt$digits, caption = "Rank of Residuals", align = "r") %>%
         kable_classic(full_width=FALSE)
-    return(list(return.tab, return.residual))
+    return(list("Logistic REG Result"=return.tab, "Info of Residual"=return.residual))
   } else {
     return(return.tab)
   }
