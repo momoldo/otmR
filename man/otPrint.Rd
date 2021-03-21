@@ -4,10 +4,13 @@
 \alias{otPrint}
 \title{Print out function for otmR}
 \usage{
-otPrint(otm_obj, ...)
+otPrint(otm_obj, digits = 3, ...)
 }
 \arguments{
 \item{otm_obj}{an object made by ot_functions.}
+
+\item{digits}{a numeric how many significant digits are to be used for
+numeric and comlex value.}
 
 \item{...}{further arguments passed to or from other methods.}
 }

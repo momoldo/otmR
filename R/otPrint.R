@@ -262,10 +262,12 @@ ot_print_anova <- function(otm_obj, ...){
 #' Print out function for otmR
 #'
 #' @param otm_obj an object made by ot_functions.
+#' @param digits a numeric how many significant digits are to be used for
+#'   numeric and comlex value.
 #' @param ... further arguments passed to or from other methods.
 #' @export
 #'
-otPrint <- function(otm_obj, ...){
+otPrint <- function(otm_obj, digits = 3, ...){
   if (!is.null(otm_obj)){
     options(knitr.kable.NA = '')
     func_name <- attr(otm_obj, "otmR_func")
