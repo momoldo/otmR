@@ -50,7 +50,6 @@ ot_basic_stats_vec <- function(x){
 #'
 #' @param data target data.frame
 #'
-#' @importFrom dplyr %>%
 #' @importFrom purrr map_dfr
 #' @export
 #'
