@@ -4,7 +4,7 @@
 \alias{otFrequencyTable}
 \title{Frequency Table}
 \usage{
-otFrequencyTable(data, omit.na = FALSE)
+otFrequencyTable(data, omit.na = TRUE)
 }
 \arguments{
 \item{data}{a data.set object computing frequency tables}
